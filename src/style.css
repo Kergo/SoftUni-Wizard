@@ -3,11 +3,11 @@ body {
     font-family: consolas;
 }
 
-.game-section {
+.game-area {
     position: relative;
     background-color: lightskyblue;
     width: 100%;
-    height: 96vh;
+    height: 90vh;
     margin: 0;
 }
 
@@ -20,4 +20,10 @@ body {
     z-index: 1;
     text-align: center;
     padding: 30px;
+}
+
+.score {
+    background-color: black;
+    color: white;
+    text-align: center;
 }
