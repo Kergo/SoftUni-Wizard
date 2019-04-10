@@ -28,7 +28,7 @@
 
         let player = {
             x: 150,
-            y: 300,
+            y: 100,
             width: 0,
             height: 0
         };
@@ -81,6 +81,11 @@
             }
             if (keys.ArrowRight && player.x + player.width < gameArea.offsetWidth) {
                 player.x += game.speed * game.movingMultiplier;
+            }
+            if (keys.Space) {
+                wizard.classList.add('wizard-fire');
+            } else {
+                wizard.classList.remove('wizard-fire');
             }
 
             // Apply movement
