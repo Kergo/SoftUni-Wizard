@@ -15,11 +15,11 @@ function onGameStart() {
 
     const wizard = document.createElement('div');
     wizard.classList.add('wizard');
-    wizard.style.top = player.y + 'px';
-    wizard.style.left = player.x + 'px';
+    wizard.style.top = state.player.y + 'px';
+    wizard.style.left = state.player.x + 'px';
     gameArea.appendChild(wizard);
-    player.width = wizard.offsetWidth;
-    player.height = wizard.offsetHeight;
+    state.player.width = wizard.offsetWidth;
+    state.player.height = wizard.offsetHeight;
 
     window.requestAnimationFrame(frame(0));
 }
@@ -27,17 +27,15 @@ function onGameStart() {
 
 const frame = t1 => t2 => {
     if (t2 - t1 > game.frameLength) {
-        gameAction(t2);
+        draw(t2);
        scene.isActiveGame && window.requestAnimationFrame(frame(t2));
     } else {
         window.requestAnimationFrame(frame(t1))
     }
 }
 
-function gameAction(timestamp) {
+function draw(timestamp) {
     const wizard = document.querySelector('.wizard');
-    // player.width = wizard.offsetWidth;
-    //player.height = wizard.offsetHeight;
 
     scene.score++;
 
@@ -96,30 +94,30 @@ function gameAction(timestamp) {
         }
     });
     // Apply gravitation
-    let isInAir = player.y + player.height < gameArea.offsetHeight
+    let isInAir = state.player.y + state.player.height < gameArea.offsetHeight
     if (isInAir) {
-        player.y += game.speed;
+        state.player.y += game.speed;
     }
 
 
 
     // Register user input
-    if (keys.ArrowUp && player.y > 0) {
-        player.y -= game.speed * game.movingMultiplier;
+    if (keys.ArrowUp && state.player.y > 0) {
+        state.player.y -= game.speed * game.movingMultiplier;
     }
     if (keys.ArrowDown && isInAir) {
-        player.y += game.speed * game.movingMultiplier;
+        state.player.y += game.speed * game.movingMultiplier;
     }
-    if (keys.ArrowLeft && player.x > 0) {
-        player.x -= game.speed * game.movingMultiplier;
+    if (keys.ArrowLeft && state.player.x > 0) {
+        state.player.x -= game.speed * game.movingMultiplier;
     }
-    if (keys.ArrowRight && player.x + player.width < gameArea.offsetWidth) {
-        player.x += game.speed * game.movingMultiplier;
+    if (keys.ArrowRight && state.player.x + state.player.width < gameArea.offsetWidth) {
+        state.player.x += game.speed * game.movingMultiplier;
     }
-    if (keys.Space && timestamp - player.lastTimeFiredFireBall > game.fireInterval) {
+    if (keys.Space && timestamp - state.player.lastTimeFiredFireBall > game.fireInterval) {
         // Add Fire Ball
-        addFireBall(player);
-        player.lastTimeFiredFireBall = timestamp;
+        addFireBall(state.player);
+        state.player.lastTimeFiredFireBall = timestamp;
         setTimeout(wizardFireMovment, 200);
         function wizardFireMovment() {
             wizard.classList.remove('wizard-fire');
@@ -147,8 +145,8 @@ function gameAction(timestamp) {
     });
 
     // Apply movement
-    wizard.style.top = player.y + 'px';
-    wizard.style.left = player.x + 'px';
+    wizard.style.top = state.player.y + 'px';
+    wizard.style.left = state.player.x + 'px';
 
     // Apply score
     gamePoints.textContent = scene.score;

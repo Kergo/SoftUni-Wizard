@@ -1,20 +1,20 @@
 let keys = {};
 
-let player = {
-    x: 150,
-    y: 100,
-    width: 0,
-    height: 0,
-    lastTimeFiredFireBall: 0
-};
-
-
-
 let scene = {
     isActiveGame: true,
     score: 0,
     lastCloudSpawn: 0,
     lastBugSpawn: 0
+};
+
+let state = {
+    player: {
+        x: 150,
+        y: 100,
+        width: 0,
+        height: 0,
+        lastTimeFiredFireBall: 0
+    }
 };
 
 function isCollision(firstElement, secondElement) {
@@ -25,7 +25,7 @@ function isCollision(firstElement, secondElement) {
         firstRect.bottom < secondRect.top ||
         firstRect.right < secondRect.left ||
         firstRect.left > secondRect.right);
-}
+};
 
 function gameOverAction() {
     scene.isActiveGame = false;
