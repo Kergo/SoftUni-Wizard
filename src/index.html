@@ -49,8 +49,7 @@
             wizard.classList.add('wizard');
             wizard.style.top = player.y + 'px';
             wizard.style.left = player.x + 'px';
-            player.width = wizard.offsetWidth;
-            player.height = wizard.offsetHeight;
+
             gameArea.appendChild(wizard);
 
             window.requestAnimationFrame(gameAction);
@@ -58,7 +57,8 @@
 
         function gameAction() {
             const wizard = document.querySelector('.wizard');
-
+            player.width = wizard.offsetWidth;
+            player.height = wizard.offsetHeight;
             scene.score++;
 
             // Modify fireball positions
@@ -66,6 +66,10 @@
             fireBalls.forEach(fireBall => {
                 fireBall.x += game.speed;
                 fireBall.style.left = fireBall.x + 'px';
+
+                if (fireBall.x + fireBall.offsetWidth > gameArea.offsetWidth) {
+                    fireBall.parentElement.removeChild(fireBall);
+                }
             });
             // Apply gravitation
             let isInAir = player.y + player.height < gameArea.offsetHeight
