@@ -74,7 +74,7 @@
 
             scene.score++;
 
-            //Add bugs
+            // Add bugs
             if (timestamp - scene.lastBugSpawn > game.bugSpawnInterval + 5000 * Math.random()) {
                 let bug = document.createElement('div');
                 bug.classList.add('bug');
@@ -150,13 +150,19 @@
                 player.x += game.speed * game.movingMultiplier;
             }
             if (keys.Space && timestamp - player.lastTimeFiredFireBall > game.fireInterval) {
-                wizard.classList.add('wizard-fire');
                 // Add Fire Ball
                 addFireBall(player);
                 player.lastTimeFiredFireBall = timestamp;
-            } else {
+                setTimeout(wizardFireMovment, 200); 
+                function wizardFireMovment() {
                 wizard.classList.remove('wizard-fire');
-            }
+                }
+                wizard.classList.add('wizard-fire');
+            } 
+            //else {
+                //wizard.classList.remove('wizard-fire')
+                
+            //}
 
             // Collision detection
             bugs.forEach(bug => {
@@ -172,7 +178,6 @@
                     }
                 })
             });
-
 
             // Apply movement
             wizard.style.top = player.y + 'px';
@@ -203,7 +208,6 @@
 
         function addFireBall(player) {
             let fireBall = document.createElement('div');
-
             fireBall.classList.add('fire-ball');
             fireBall.style.top = (player.y + player.height / 3 - 5) + 'px';
             fireBall.x = player.x + player.width;
