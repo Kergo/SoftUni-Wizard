@@ -35,7 +35,8 @@
 
         let game = {
             speed: 2,
-            movingMultiplier: 4
+            movingMultiplier: 4,
+            fireBallMultiplier: 5
         };
 
         let scene = {
@@ -64,7 +65,7 @@
             // Modify fireball positions
             let fireBalls = document.querySelectorAll('.fire-ball');
             fireBalls.forEach(fireBall => {
-                fireBall.x += game.speed;
+                fireBall.x += game.speed * game.fireBallMultiplier;
                 fireBall.style.left = fireBall.x + 'px';
 
                 if (fireBall.x + fireBall.offsetWidth > gameArea.offsetWidth) {
