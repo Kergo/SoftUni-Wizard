@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" media="screen" href="style.css">
     <title>SoftUni Wizard</title>
 </head>
+
 <body>
     <div class="game-section">
         <div class="game-score"><span class="points">0</span> pts.</div>
@@ -38,11 +40,13 @@
             speed: 2,
             movingMultiplier: 4,
             fireBallMultiplier: 5,
-            fireInterval: 1000
+            fireInterval: 1000,
+            cloudSpawnInterval: 5000
         };
 
         let scene = {
-            score: 0
+            score: 0,
+            lastCloudSpawn: 0
         };
 
         function onGameStart() {
@@ -52,7 +56,8 @@
             wizard.classList.add('wizard');
             wizard.style.top = player.y + 'px';
             wizard.style.left = player.x + 'px';
-
+            player.width = wizard.offsetWidth;
+            player.height = wizard.offsetHeight;
             gameArea.appendChild(wizard);
 
             window.requestAnimationFrame(gameAction);
@@ -62,7 +67,31 @@
             const wizard = document.querySelector('.wizard');
             player.width = wizard.offsetWidth;
             player.height = wizard.offsetHeight;
+
             scene.score++;
+
+            // Add clouds
+            if (timestamp - scene.lastCloudSpawn > game.cloudSpawnInterval) {
+                let cloud = document.createElement('div');
+                cloud.classList.add('cloud');
+                cloud.x = gameArea.offsetWidth //- 200;
+                cloud.style.left = cloud.x + 'px';
+                cloud.style.top = '100px';
+                gameArea.appendChild(cloud);
+                scene.lastCloudSpawn = timestamp;
+            }
+
+
+            // Modify clouds positions
+            let clouds = document.querySelectorAll('.cloud');
+            clouds.forEach(cloud => {
+                cloud.x -= game.speed;
+                cloud.style.left = cloud.x + 'px';
+
+                if (cloud.x + cloud.offsetWidth <= 0) {
+                    cloud.parentElement.removeChild(cloud)
+                }
+            });
 
             // Modify fireball positions
             let fireBalls = document.querySelectorAll('.fire-ball');
@@ -109,7 +138,7 @@
             wizard.style.left = player.x + 'px';
             // Apply score
             gamePoints.textContent = scene.score;
-            
+
             window.requestAnimationFrame(gameAction);
         }
 
@@ -128,8 +157,9 @@
         }
 
         function onKeyUp(e) {
-            keys[e.code] = false;            
+            keys[e.code] = false;
         }
     </script>
 </body>
+
 </html>
