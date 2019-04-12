@@ -84,16 +84,13 @@ function draw(timestamp, state) {
         }
     });
 
-    // Modify fireball positions
+    // Modify fireballs positions
 
     let fireBalls = document.querySelectorAll('.fire-ball');
 
     state.attacks.forEach(a => a.el.style.left = a.x + 'px');
 
     fireBalls.forEach(fireBall => {
-        //fireBall.x += game.speed * game.fireBallMultiplier;
-        //fireBall.style.left = fireBall.x + 'px';
-
         if (fireBall.x + fireBall.offsetWidth > gameArea.offsetWidth) {
             fireBall.parentElement.removeChild(fireBall);
         }
@@ -147,7 +144,7 @@ function draw(timestamp, state) {
                 bug.parentElement.removeChild(bug);
                 fireBall.parentElement.removeChild(fireBall);
             }
-        })
+        });
     });
 
     // Apply movement
@@ -156,9 +153,4 @@ function draw(timestamp, state) {
 
     // Apply score
     gamePoints.textContent = state.scene.score;
-
-
-
-
 }
-
