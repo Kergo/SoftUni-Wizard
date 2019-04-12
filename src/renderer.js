@@ -71,7 +71,7 @@ function draw(timestamp, state) {
         if (bug.x + bug.offsetWidth <= 0) {
             bug.parentElement.removeChild(bug);
         }
-    })
+    });
 
     // Modify clouds positions
     let clouds = document.querySelectorAll('.cloud');
@@ -85,15 +85,20 @@ function draw(timestamp, state) {
     });
 
     // Modify fireball positions
+
     let fireBalls = document.querySelectorAll('.fire-ball');
+
+    state.attacks.forEach(a => a.el.style.left = a.x + 'px');
+
     fireBalls.forEach(fireBall => {
-        fireBall.x += game.speed * game.fireBallMultiplier;
-        fireBall.style.left = fireBall.x + 'px';
+        //fireBall.x += game.speed * game.fireBallMultiplier;
+        //fireBall.style.left = fireBall.x + 'px';
 
         if (fireBall.x + fireBall.offsetWidth > gameArea.offsetWidth) {
             fireBall.parentElement.removeChild(fireBall);
         }
     });
+
     // Apply gravitation
     let isInAir = state.player.y + state.player.height < gameArea.offsetHeight
     if (isInAir) {
@@ -117,7 +122,7 @@ function draw(timestamp, state) {
     }
     if (keys.Space && timestamp - state.player.lastTimeFiredFireBall > game.fireInterval) {
         // Add Fire Ball
-        addFireBall(state.player);
+        addFireBall(state);
         state.player.lastTimeFiredFireBall = timestamp;
         setTimeout(wizardFireMovment, 200);
         function wizardFireMovment() {
