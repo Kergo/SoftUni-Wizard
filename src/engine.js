@@ -6,6 +6,8 @@ const initialState = (options) => ({
         y: 100,
         width: 0,
         height: 0,
+        w: 0,
+        h: 0,
         lastTimeFiredFireBall: 0
     },
     scene: {
@@ -40,6 +42,11 @@ const nextBugs = s => s.bugs
             removeEl(b.el)
             return false;
         }
+
+        if (isCol(s.player, b)) {
+            gameOverAction();
+        }
+
         return true;
     })
     .map(b => {
@@ -64,6 +71,8 @@ function isCollision(firstElement, secondElement) {
         firstRect.right < secondRect.left ||
         firstRect.left > secondRect.right);
 };
+
+
 
 function gameOverAction() {
     state.scene.isActiveGame = false;

@@ -23,8 +23,12 @@ function onGameStart() {
     wizard.style.top = state.player.y + 'px';
     wizard.style.left = state.player.x + 'px';
     gameArea.appendChild(wizard);
+
     state.player.width = wizard.offsetWidth;
     state.player.height = wizard.offsetHeight;
+
+    state.player.w = wizard.offsetWidth;
+    state.player.h = wizard.offsetHeight;
 
     window.requestAnimationFrame(frame(0));
 }
@@ -59,6 +63,8 @@ function draw(timestamp, state) {
         state.bugs.push({
             x: gameArea.offsetWidth - 60,
             y: (gameArea.offsetHeight - 60) * Math.random(),
+            w: bug.offsetWidth,
+            h: bug.offsetHeight,
             el: bug
         });
     }
@@ -141,9 +147,9 @@ function draw(timestamp, state) {
 
     // Collision detection
     bugs.forEach(bug => {
-        if (isCollision(wizard, bug)) {
-            gameOverAction();
-        }
+        // if (isCollision(wizard, bug)) {
+        //     gameOverAction();
+        // }
 
         fireBalls.forEach(fireBall => {
             if (isCollision(fireBall, bug)) {
