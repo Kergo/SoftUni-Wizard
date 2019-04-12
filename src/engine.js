@@ -18,13 +18,21 @@ const initialState = () => ({
     attacks: [],
     bugs: []
 });
+
+const nextPlayer = s => s.player;
+const nextScene = s => s.scene;
+const nextClouds = s => s.clouds;
+const nextAttacks = s => s.attacks;
+const nextBugs = s => s.bugs;
+
 const next = (state) => ({
-    player: state.player,
-    scene: state.scene,
-    clouds: state.clouds,
-    attacks: state.attacks,
-    bugs: state.bugs
+    player: nextPlayer(state),
+    scene: nextScene(state),
+    clouds: nextClouds(state),
+    attacks: nextAttacks(state),
+    bugs: nextBugs(state)
 });
+
 function isCollision(firstElement, secondElement) {
     let firstRect = firstElement.getBoundingClientRect();
     let secondRect = secondElement.getBoundingClientRect();
