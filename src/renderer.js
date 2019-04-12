@@ -9,7 +9,10 @@ document.addEventListener('keydown', onKeyDown);
 document.addEventListener('keyup', onKeyUp);
 
 let state = initialState({
-    areaWidth: gameArea.offsetWidth
+    areaWidth: gameArea.offsetWidth,
+    attackWidth: 40,
+    bugWidth: 60,
+    bugHeight: 60
 });
 
 function onGameStart() {
@@ -51,6 +54,13 @@ function draw(timestamp, state) {
         bug.style.top = (gameArea.offsetHeight - 60) * Math.random() + 'px';
         gameArea.appendChild(bug);
         state.scene.lastBugSpawn = timestamp;
+
+
+        state.bugs.push({
+            x: gameArea.offsetWidth - 60,
+            y: (gameArea.offsetHeight - 60) * Math.random(),
+            el: bug
+        });
     }
 
     // Add clouds
@@ -66,14 +76,16 @@ function draw(timestamp, state) {
 
     // Modify bug position
     let bugs = document.querySelectorAll('.bug');
-    bugs.forEach(bug => {
-        bug.x -= game.speed * 3;
-        bug.style.left = bug.x + 'px';
+    // bugs.forEach(bug => {
+    //     bug.x -= game.speed * 3;
+    //     bug.style.left = bug.x + 'px';
 
-        if (bug.x + bug.offsetWidth <= 0) {
-            bug.parentElement.removeChild(bug);
-        }
-    });
+    //     if (bug.x + bug.offsetWidth <= 0) {
+    //         bug.parentElement.removeChild(bug);
+    //     }
+    // });
+
+    state.bugs.forEach(b => b.el.style.left = b.x + 'px')
 
     // Modify clouds positions
     let clouds = document.querySelectorAll('.cloud');
@@ -136,8 +148,8 @@ function draw(timestamp, state) {
         fireBalls.forEach(fireBall => {
             if (isCollision(fireBall, bug)) {
                 state.scene.score += game.bugKillBonus
-                bug.parentElement.removeChild(bug);
-                fireBall.parentElement.removeChild(fireBall);
+                //bug.parentElement.removeChild(bug);
+                //fireBall.parentElement.removeChild(fireBall);
             }
         });
     });
